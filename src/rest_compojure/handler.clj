@@ -9,9 +9,11 @@
         ))
 
 (defentity user)
+(defentity post)
 
 (defroutes app-routes
            (GET "/" [] (select user))
+           (GET "/posts/:id" [id] (select (Integer. from)))
            (route/not-found "Not Found"))
 
 (def app
