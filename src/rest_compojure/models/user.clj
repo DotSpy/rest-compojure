@@ -1,4 +1,4 @@
-(ns rest-compojure.model.user
+(ns rest-compojure.models.user
   (:use korma.core)
   (:require [rest-compojure.entities :as e]
             [buddy.hashers :as hashers]

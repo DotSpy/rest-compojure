@@ -16,3 +16,8 @@
            (table :post)
            (belongs-to user {:fk :owner_id})
            (entity-fields :name :view_count))
+
+(defentity auth-tokens
+           (pk :id)
+           (table :auth_tokens)
+           (belongs-to user {:fk :user_id}))

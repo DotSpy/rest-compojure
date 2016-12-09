@@ -1,7 +1,7 @@
 (ns rest-compojure.auth
   (:use korma.core)
-  (:require [restful-clojure.entities :as e]
-            [restful-clojure.models.users :as users]
+  (:require [rest-compojure.entities :as e]
+            [rest-compojure.models.user :as user]
             [buddy.auth.backends.token :refer [token-backend]]
             [buddy.auth.accessrules :refer [success error]]
             [buddy.auth :refer [authenticated?]]
@@ -28,7 +28,7 @@
     (some-> (exec-raw [sql [token]] :results)
             first
             :user_id
-            users/find-by-id)))
+            user/find-by-id)))
 
 (defn unauthorized-handler [req msg]
   {:status 401
