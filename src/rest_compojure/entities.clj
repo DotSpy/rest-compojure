@@ -1,6 +1,6 @@
 (ns rest-compojure.entities
   (:use korma.core
-        rest-compojure.db))
+        rest-compojure.db.core))
 
 (declare user lists)
 (declare post lists)
@@ -9,7 +9,7 @@
            (pk :id)
            (table :user)
            (has-many post)
-           (entity-fields :name :surname :pass :login))
+           (entity-fields :name :surname :pass :email))
 
 (defentity post
            (pk :id)

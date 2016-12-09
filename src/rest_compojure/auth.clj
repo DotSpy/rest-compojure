@@ -42,9 +42,9 @@
 
 ;; Map of actions to the set of user types authorized to perform that action
 (def permissions
-  {"manage-lists"    #{:restful-clojure.models.users/user}
-   "manage-products" #{:restful-clojure.models.users/admin}
-   "manage-users"    #{:restful-clojure.models.users/admin}})
+  {"manage-lists"    #{:rest-compojure.models.users/user}
+   "manage-products" #{:rest-compojure.models.users/admin}
+   "manage-users"    #{:rest-compojure.models.users/admin}})
 
 ;;; Below are the handlers that Buddy will use for various authorization
 ;;; requirements the authenticated-user function determines whether a session
