@@ -49,9 +49,9 @@
           (where {:id (user :id)})))
 
 (defn count-users []
-  (let [agg (select e/user
-                    (aggregate (count :*) :cnt))]
-    (get-in agg [0 :cnt] 0)))
+  (select :user
+          (aggregate (count :*) :cnt))
+  )
 
 (defn delete-user [user]
   (delete e/user
