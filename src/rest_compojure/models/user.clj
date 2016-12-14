@@ -24,7 +24,8 @@
 (defn find-by-email [email]
   (find-by :email email))
 
-(defn create [user]
+(defn create [{email :email password :password}]
+  ;(println user)
   (-> (insert* e/user)
       (values (-> user
                   (assoc :password (hashers/encrypt (:password user)))

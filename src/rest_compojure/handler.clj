@@ -19,12 +19,13 @@
 
 (defn get-users [_]
   {:status 200
-   :body {:count (users/count-users)
-          :results (users/find-all)}})
+   :body   {:count   (users/count-users)
+            :results (users/find-all)}})
 
-(defn create-user [{user :body}]
+(defn create-user [user]
+  ;(println user)
   (let [new-user (users/create user)]
-    {:status 201
+    {:status  201
      :headers {"Location" (str "/users/" (:id new-user))}}))
 
 (defn find-user [{{:keys [id]} :params}]
@@ -36,7 +37,7 @@
 ;
 (defn delete-user [{{:keys [id]} :params}]
   (users/delete-user {:id (read-string id)})
-  {:status 204
+  {:status  204
    :headers {"Location" "/users"}})
 ;
 ;(defn get-lists [_]
@@ -80,31 +81,31 @@
 (defroutes app-routes
            ;; USERS
            (context "/users" []
-             (GET "/" [] (-> get-users
+             (GET "/" [] (-> get-users))
+             (POST "/" request
+               (create-user request))
 
-
-                             )
-                         )
-             (POST "/" [] create-user)
              (context "/:id" [id]
                (restrict
                  (routes
                    (GET "/" [] find-user))
-                 {:handler {:and [authenticated-user
-                                  {:or [(user-can "manage-users")
-                                        (user-has-id (read-string id))]}]}
-                  :on-error unauthorized-handler}))
+                 {:handler
+
+
+                  (user-has-id (read-string id))
+                  }))
+
              (DELETE "/:id" [id] (-> delete-user
-                                     (restrict {:handler {:and [authenticated-user (user-can "manage-users")]}
+                                     (restrict {:handler  {:and [authenticated-user (user-can "manage-users")]}
                                                 :on-error unauthorized-handler}))))
 
            (POST "/sessions" {{:keys [user-id password]} :body}
              (if (users/password-matches? user-id password)
                {:status 201
-                :body {:auth-token (make-token! user-id)}}
+                :body   {:auth-token (make-token! user-id)}}
                {:status 409
-                :body {:status "error"
-                       :message "invalid username or password"}}))
+                :body   {:status  "error"
+                         :message "invalid username or password"}}))
 
            (route/not-found (response {:message "Page not found"})))
 
