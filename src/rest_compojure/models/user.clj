@@ -22,16 +22,13 @@
   (find-by-id (listdata :owner_id)))
 
 (defn find-by-email [email]
+  (println "find-by-email")
   (find-by :email email))
 
-(defn create [{email :email password :password}]
+(defn create-user [user]
   ;(println user)
-  (-> (insert* e/user)
-      (values (-> user
-                  (assoc :password (hashers/encrypt (:password user)))
-                  (dissoc :password)))
-      insert
-      (dissoc :password_digest)))
+  (insert e/user
+          (values user)))
 
 (defn password-matches?
   "Check to see if the password given matches the digest of the user's saved password"
