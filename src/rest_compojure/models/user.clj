@@ -22,7 +22,6 @@
   (find-by-id (listdata :owner_id)))
 
 (defn find-by-email [email]
-  (println "find-by-email")
   (find-by :email email))
 
 (defn create-user [user]

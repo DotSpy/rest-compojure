@@ -34,3 +34,23 @@
                              :message "You are successfully registred!"}))
               )))
   )
+
+(defn do-auth-user [{:keys [params]}]
+  (if-let [errors (rv/validate-auth params)]
+
+    (-> (response {:status 400
+                   :title  "Error"
+                   :error  errors}))
+
+    (do
+      (let [user (find-by-email (:email params))]
+
+        (if (and user (hashers/check (:pass params) (:pass user)))
+          (-> (response {:status 200
+                         :token  "Token"})
+              )
+          (-> (response {:status  401
+                         :title   "Error"
+                         :message "Wrong creds"})
+              )))))
+  )

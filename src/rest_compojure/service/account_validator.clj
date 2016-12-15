@@ -10,3 +10,11 @@
       :surname v/required
       :email [v/required v/email]
       :pass [v/required [v/min-count 6]])))
+
+(defn validate-auth [params]
+  (println params)
+  (first
+    (b/validate
+      params
+      :email [v/required v/email]
+      :pass v/required)))

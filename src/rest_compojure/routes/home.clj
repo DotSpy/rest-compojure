@@ -19,8 +19,9 @@
             :results (users/find-all)}})
 
 (defroutes home-routes
-           (POST "/register" request
-             (account-controller/do-register-user request))
+           (POST "/login" request (account-controller/do-auth-user request))
+           (POST "/register" request (account-controller/do-register-user request))
+
            (GET "/test" [])
            ;; USERS
            (context "/users" []
