@@ -1,6 +1,8 @@
 (ns rest-compojure.middleware.middleware
   (:require [rest-compojure.env :refer [defaults]]
             [clojure.tools.logging :as log]
+            [ring.middleware.json :as middleware]
+            [compojure.core :refer [routes wrap-routes]]
             [ring.util.response :refer [response]]
             [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.webjars :refer [wrap-webjars]]
@@ -37,13 +39,13 @@
                    :title   "Something very bad has happened!"
                    :message "We've dispatched a team of highly trained gnomes to take care of the problem."})))))
 
-;(defn wrap-csrf [handler]
-;  (wrap-anti-forgery
-;    handler
-;    {:error-response
-;     (response
-;       {:status 403
-;        :title  "Invalid anti-forgery token"})}))
+(defn wrap-csrf [handler]
+  (wrap-anti-forgery
+    handler
+    {:error-response
+     (response
+       {:status 403
+        :title  "Invalid anti-forgery token"})}))
 
 (defn wrap-formats [handler]
   (let [wrapped (wrap-restful-format

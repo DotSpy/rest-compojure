@@ -1,4 +1,6 @@
 (ns rest-compojure.handler
+  (:use
+    ring.middleware.json)
   (:require [rest-compojure.db.core]
             [compojure.core :refer [routes wrap-routes]]
             [rest-compojure.routes.home :refer [home-routes]]
@@ -20,6 +22,13 @@
         (wrap-routes middleware/wrap-formats))
     (route/not-found
       (layout/error-page {:status 404 :title "Not found" :message "ooops"}))))
+
+;(def app
+;  (-> app-routes
+;      ;(wrap-authentication auth-backend)
+;      ;(wrap-authorization auth-backend)
+;      wrap-json-response
+;      (wrap-json-body {:keywords? true})))
 
 
 (defn app [] (middleware/wrap-base #'app-routes))

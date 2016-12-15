@@ -14,7 +14,6 @@
             [buddy.auth.accessrules :refer [restrict]]))
 
 (defn get-users [_]
-  (println (-> get-users))
   {:status 200
    :body   {:count   (users/count-users)
             :results (users/find-all)}})
@@ -22,8 +21,7 @@
 (defroutes home-routes
            (POST "/register" request
              (account-controller/do-register-user request))
-           (GET "/test" [] ()
-                           )
+           (GET "/test" [])
            ;; USERS
            (context "/users" []
              (GET "/" [] (-> get-users))
