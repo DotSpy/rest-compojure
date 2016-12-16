@@ -1,10 +1,10 @@
 (ns rest-compojure.routes.home
   (:use compojure.core
         ring.middleware.json)
-  (:import (com.fasterxml.jackson.core JsonGenerator))
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [rest-compojure.controller.account-controller :as account-controller]
+            [rest-compojure.controller.post-controller :as post-controller]
             [ring.util.response :refer [response]]
             [cheshire.generate :refer [add-encoder]]
             [rest-compojure.models.user :as users]
@@ -19,6 +19,11 @@
             :results (users/find-all)}})
 
 (defroutes home-routes
+
+           (GET "/posts" [] (-> post-controller/get-posts))
+           (GET "/posts/:id" [id] (post-controller/get-post id))
+           (POST "/posts" request (post-controller/add-post request))
+           (DELETE "/posts/:id" [id] (post-controller/delete-post id))
            (POST "/login" request (account-controller/do-auth-user request))
            (POST "/register" request (account-controller/do-register-user request))
 
@@ -26,7 +31,6 @@
            ;; USERS
            (context "/users" []
              (GET "/" [] (-> get-users))
-
 
              ;(context "/:id" [id]
              ;  (restrict

@@ -4,6 +4,7 @@
 
 (declare user lists)
 (declare post lists)
+(declare auth-tokens lists)
 
 (defentity user
            (pk :id)
@@ -15,7 +16,7 @@
            (pk :id)
            (table :post)
            (belongs-to user {:fk :owner_id})
-           (entity-fields :name :view_count))
+           (entity-fields :name :text))
 
 (defentity auth-tokens
            (pk :id)
