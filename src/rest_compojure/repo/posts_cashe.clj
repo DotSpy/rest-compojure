@@ -25,14 +25,7 @@
                               (first from-db))
                             cached)))
 
-  (insert-entity [this data] (let [id (:generated_key (insert-entity posts-repository data))]
-                               (swap! cache conj (assoc data :id id))
-                               id))
-
-  (update-entity [this id data]
-    (update-entity posts-repository id data)
-    (swap! cache assoc (keyword (str id)) (merge ((keyword (str id)) @cache) data)))
-
   (delete-entity [this id]
     (delete-entity posts-repository id)
-    (swap! cache dissoc (keyword (str id)))))
+    (swap! cache dissoc (keyword (str id))))
+  )

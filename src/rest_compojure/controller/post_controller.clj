@@ -2,32 +2,30 @@
   (:use
     [rest-compojure.service.mail-service]
     [rest-compojure.protocols.posts]
-    [rest-compojure.repo.posts-cashe]
+    [rest-compojure.repo.posts]
     [rest-compojure.protocols.common]
     [carica.core])
   (:require
-    [ring.util.response :refer [response]]))
+    [rest-compojure.layout :as layout]
+    [ring.util.response :refer [response redirect]]))
 
-(def posts-cache-repository (->posts-cache-repository))
+(def posts-repository (->posts-repository))
+
+(defn posts-page
+  ([] (layout/render "posts.html"))
+  ([posts] (layout/render "posts.html" (merge {:posts posts}))))
 
 (defn add-post [{:keys [params]}]
-  (insert-entity posts-cache-repository {:name (:name params) :text (:text params)})
-  (-> (response {:status  200
-                 :title   "Post"
-                 :message "Post added!"
-                 })))
+  (insert-entity posts-repository {:name (:name params) :text (:text params)})
+  (-> (redirect "/posts")))
 
 (defn delete-post [id]
-  (delete-entity posts-cache-repository id)
-  (-> (response {:status  200
-                 :id      (str id)
-                 :message "Post deleted!"
-                 })))
+  (delete-entity posts-repository id)
+  (-> (redirect "/posts")))
 
 (defn get-posts [_]
-  (-> (response {:posts (.get-entities posts-cache-repository)
-                 })))
+  (-> (posts-page (get-entities posts-repository))))
 
 (defn get-post [id]
-  (-> (response {:posts (get-entity posts-cache-repository id)
+  (-> (response {:posts (get-entity posts-repository id)
                  })))

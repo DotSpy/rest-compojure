@@ -1,0 +1,26 @@
+{% extends "shop_base.html" %}
+
+{% block css_styles %}
+{% style "/css/home.css" %}
+{% endblock %}
+
+{% block content %}
+<div id="home-content">
+    {% csrf-field %}
+    <div class="header"></div>
+    <div class="row">
+        <div class="search-panel">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="audio-info">
+        <span><img class="loader" src="/img/load.gif"/></span>
+    </div>
+</div>
+
+{% endblock %}
